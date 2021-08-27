@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css"
+    href="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.11.0/b-2.0.0/b-colvis-2.0.0/b-html5-2.0.0/b-print-2.0.0/date-1.1.1/rg-1.1.3/rr-1.2.8/sc-2.0.5/sb-1.2.0/sp-1.4.0/sl-1.3.3/datatables.min.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css">
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+  <script type="text/javascript"
+    src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.11.0/b-2.0.0/b-colvis-2.0.0/b-html5-2.0.0/b-print-2.0.0/date-1.1.1/rg-1.1.3/rr-1.2.8/sc-2.0.5/sb-1.2.0/sp-1.4.0/sl-1.3.3/datatables.min.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+
+  <title>OTOPARK-SİSTEMİ</title>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <h4 class="navbar-brand">Otopark Sistemi</h4>
+  </nav>
+  <hr>
+  <div class="container" style="margin-bottom: 10px;">
+    <button class="btn btn-success" id="yeniArac">Yeni Araç Ekle</button>
+  </div>
+
+  <div class="container">
+    <table id="table" class="table table-hover">
+      <thead>
+        <tr>
+          <th>PLAKA</th>
+          <th>Araç Modeli</th>
+          <th>Giriş Zamanı</th>
+          <th>Çıkış Zamanı</th>
+          <th></th>
+          <th>Tutar</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <td>35 AB 1235</td>
+          <td>Renault</td>
+          <td></td>
+          <td></td>
+          <td><button class="btn btn-warning">Çıkış Yap</button></td>
+          <td>₺</td>
+          <td><a href="#" class="btn btn-danger" onclick="">Kaydı Sil</a></td>
+          <td><button class="btn btn-info">Düzenle</button></td>
+
+        </tr>
+        <tr>
+          <td>35 ABC 021</td>
+          <td>Mercedes</td>
+          <td></td>
+          <td></td>
+          <td><button class="btn btn-warning">Çıkış Yap</button></td>
+          <td>₺</td>
+          <td><button class="btn btn-danger">Kaydı Sil</button></td>
+          <td><button class="btn btn-info">Düzenle</button></td>
+        </tr>
+        <tr>
+          <td>34 AAA 225</td>
+          <td>Audi</td>
+          <td></td>
+          <td></td>
+          <td><button class="btn btn-warning">Çıkış Yap</button></td>
+          <td>₺</td>
+          <td><button class="btn btn-danger">Kaydı Sil</button></td>
+          <td><button class="btn btn-info">Düzenle</button></td>
+        </tr>
+
+      </tbody>
+    </table>
+    <div id="sonuc"></div>
+    <div id="myDelete"></div>
+  </div>
+</body>
+
+<script>
+  var plaka;
+  var marka;
+  var giris="";
+  var cikis="";
+  var dataSet = [
+    [plaka, marka, giris, cikis],
+
+  ];
+  var table;
+  table = $('#table').DataTable({
+    data: dataSet,
+    dom: 'Bfrtip',
+    Columns: [
+      { title: "Plaka" },
+      { title: "Marka" },
+      { title: "Giriş" },
+      { title: "Çıkış" },
+      { title: " " },
+      { title: "Tutar" },
+      { title: " " },
+      { title: " " },
+    ],
+    buttons: [
+      'pdf', 'print'
+    ],
+    // render: function (data, type, full, meta) {
+    //   Utils.formatString(buttonTemplate, data)
+    // }
+  });
+//   $(document).ready(function() {
+//     //açılışta çalışması için
+//     gonder();
+//     var int=self.setInterval("gonder()",1000);
+// });
+ 
+// function gonder(){
+//     $.ajax({
+//         type:'POST',
+//         url:'mainPage.html',
+//         success: function (msg) {
+//             $("#sonuc").html(msg);
+//         }
+//     });
+// };
+
+  
+
+
+  $('#yeniArac').confirm({
+    title: 'Yeni Araç',
+    content: '' +
+      '<form action="" class="formName">' +
+      '<div class="form-group">' +
+      '<label>Lütfen plakayı buraya giriniz</label>' +
+      '<input type="text" id="plaka" placeholder="Plaka" class="name form-control" required />' +
+      '</div>' + '<label>Lütfen araç markasını buraya giriniz</label>' +
+      '<input type="text" id="marka" placeholder="Marka" class="name form-control" required />' +
+      '</div>' +
+      '</form>',
+    buttons: {
+      formSubmit: {
+        text: 'Submit',
+        btnClass: 'btn-success',
+        action: function () {
+          localStorage.setItem("plaka",this.$content.find('#plaka').val());
+          localStorage.setItem("marka",this.$content.find('#marka').val());
+          // localStorage.setItem("giris",Date().toString());
+          console.log(this.$content.find('#plaka').val());
+          dataSet.forEach(plaka,marka,giris => {
+            plaka=localStorage.getItem("plaka");
+            marka=localStorage.getItem("marka");
+            // giris=localStorage.getItem("giris");
+            //table.rows.add(dataset).draw();
+          });
+          if (!plaka) { //regex buraya yazılacak
+            $.alert('provide a valid name');
+            return false;
+          }
+
+        }
+      },
+      cancel: function () {
+        //close
+      },
+    },
+    onContentReady: function () {
+      // bind to events
+      var jc = this;
+      this.$content.find('form').on('submit', function (e) {
+        // if the user submits the form by pressing enter in the field.
+        e.preventDefault();
+        jc.$$formSubmit.trigger('click'); // reference the button and click it
+      });
+    }
+  });
+
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</html>
