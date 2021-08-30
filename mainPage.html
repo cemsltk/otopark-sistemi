@@ -110,11 +110,12 @@
               id: araclar.length + 1,
               plaka: this.$content.find("#plaka").val(),
               marka: this.$content.find("#marka").val(),
-              giris: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+              giris: dayjs(),
               girisTarihi: new Date().getTime(),
               cikis: "",
               ucret: 0.0 + "₺",
             };
+            console.log(data.giris);
 
             if (checkPlakaExists(araclar, data.plaka)) {
               alert(data.plaka + " plakalı araç zaten otoparkımızdadır.");
@@ -165,7 +166,8 @@
     cikisYap = function (id) {
       console.log(id);
       araclar = araclar.filter((arac) => arac.id != id);
-      let giris = araclar.girisTarihi;
+      console.log("sa xd"+JSON.parse(localStorage.getItem(araclar.giris)));
+      let giris = dayjs(araclar.giris);
       console.log("giris: " + giris);
       let out = dayjs();
       console.log("out" + out);
@@ -314,7 +316,7 @@
         {
           text: "Düzenle",
           action: function () {
-            var a = table.rows( {selected:true} ).data().id(1);
+            var a = table.rows( {selected:true} ).data();
             console.log("row"+a);
           },
         },
