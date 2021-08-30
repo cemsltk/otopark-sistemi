@@ -1,191 +1,336 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.11.0/b-2.0.0/b-colvis-2.0.0/b-html5-2.0.0/b-print-2.0.0/date-1.1.1/rg-1.1.3/rr-1.2.8/sc-2.0.5/sb-1.2.0/sp-1.4.0/sl-1.3.3/datatables.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.11.0/b-2.0.0/b-colvis-2.0.0/b-html5-2.0.0/b-print-2.0.0/date-1.1.1/rg-1.1.3/rr-1.2.8/sc-2.0.5/sb-1.2.0/sp-1.4.0/sl-1.3.3/datatables.min.js"
+    ></script>
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css"
-    href="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.11.0/b-2.0.0/b-colvis-2.0.0/b-html5-2.0.0/b-print-2.0.0/date-1.1.1/rg-1.1.3/rr-1.2.8/sc-2.0.5/sb-1.2.0/sp-1.4.0/sl-1.3.3/datatables.min.css" />
-  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css">
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-  <script type="text/javascript"
-    src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.11.0/b-2.0.0/b-colvis-2.0.0/b-html5-2.0.0/b-print-2.0.0/date-1.1.1/rg-1.1.3/rr-1.2.8/sc-2.0.5/sb-1.2.0/sp-1.4.0/sl-1.3.3/datatables.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.6/dayjs.min.js"
+      integrity="sha512-bwD3VD/j6ypSSnyjuaURidZksoVx3L1RPvTkleC48SbHCZsemT3VKMD39KknPnH728LLXVMTisESIBOAb5/W0Q=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.6/locale/tr.min.js"
+      integrity="sha512-xLBBwXGUkSqQ/mdukFQOEADwylxXPyrIA+9slLPIn299VVuqgxDPDDdnVxpXRSkSVaT73KNQSAvgwTZhvdA6bQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <!-- <script src="./index.js"></script> -->
 
-  <title>OTOPARK-SİSTEMİ</title>
-</head>
+    <title>OTOPARK-SİSTEMİ</title>
+  </head>
 
-<body>
-  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-    <h4 class="navbar-brand">Otopark Sistemi</h4>
-  </nav>
-  <hr>
-  <div class="container" style="margin-bottom: 10px;">
-    <button class="btn btn-success" id="yeniArac">Yeni Araç Ekle</button>
-  </div>
+  <body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+      <h4 class="navbar-brand">Otopark Sistemi</h4>
+    </nav>
+    <hr />
+    <div class="container" style="margin-bottom: 10px">
+      <button class="btn btn-success" id="yeniArac">Yeni Araç Ekle</button>
+      <button class="btn btn-info" id="duzenle">Düzenle</button>
+    </div>
 
-  <div class="container">
-    <table id="table" class="table table-hover">
-      <thead>
-        <tr>
-          <th>PLAKA</th>
-          <th>Araç Modeli</th>
-          <th>Giriş Zamanı</th>
-          <th>Çıkış Zamanı</th>
-          <th></th>
-          <th>Tutar</th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
+    <div class="container">
+      <table id="table" class="table table-hover">
+        <thead>
+          <tr>
+            <th>PLAKA</th>
+            <th>Araç Modeli</th>
+            <th>Giriş Zamanı</th>
+            <th>Çıkış Zamanı</th>
+            <th>Tutar</th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+      </table>
+      <div id="sonuc"></div>
+      <div id="myDelete"></div>
+    </div>
+  </body>
 
-        <tr>
-          <td>35 AB 1235</td>
-          <td>Renault</td>
-          <td></td>
-          <td></td>
-          <td><button class="btn btn-warning">Çıkış Yap</button></td>
-          <td>₺</td>
-          <td><a href="#" class="btn btn-danger" onclick="">Kaydı Sil</a></td>
-          <td><button class="btn btn-info">Düzenle</button></td>
+  <script>
+    var araclar = JSON.parse(localStorage.getItem("araclar")) || [];
+    var table;
 
-        </tr>
-        <tr>
-          <td>35 ABC 021</td>
-          <td>Mercedes</td>
-          <td></td>
-          <td></td>
-          <td><button class="btn btn-warning">Çıkış Yap</button></td>
-          <td>₺</td>
-          <td><button class="btn btn-danger">Kaydı Sil</button></td>
-          <td><button class="btn btn-info">Düzenle</button></td>
-        </tr>
-        <tr>
-          <td>34 AAA 225</td>
-          <td>Audi</td>
-          <td></td>
-          <td></td>
-          <td><button class="btn btn-warning">Çıkış Yap</button></td>
-          <td>₺</td>
-          <td><button class="btn btn-danger">Kaydı Sil</button></td>
-          <td><button class="btn btn-info">Düzenle</button></td>
-        </tr>
+    $("#yeniArac").confirm({
+      title: "Yeni Araç",
+      content:
+        "" +
+        '<form action="" class="formName">' +
+        '<div class="form-group">' +
+        "<label>Lütfen plakayı buraya giriniz</label>" +
+        '<input type="text" id="plaka" placeholder="Plaka" class="name form-control" required />' +
+        "</div>" +
+        "<label>Lütfen araç markasını buraya giriniz</label>" +
+        '<input type="text" id="marka" placeholder="Marka" class="name form-control" required />' +
+        "</div>" +
+        "</form>",
+      buttons: {
+        formSubmit: {
+          text: "Araç Ekle",
+          btnClass: "btn-success",
+          action: function () {
+            const data = {
+              id: araclar.length + 1,
+              plaka: this.$content.find("#plaka").val(),
+              marka: this.$content.find("#marka").val(),
+              giris: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+              girisTarihi: new Date().getTime(),
+              cikis: "",
+              ucret: 0.0 + "₺",
+            };
 
-      </tbody>
-    </table>
-    <div id="sonuc"></div>
-    <div id="myDelete"></div>
-  </div>
-</body>
+            if (checkPlakaExists(araclar, data.plaka)) {
+              alert(data.plaka + " plakalı araç zaten otoparkımızdadır.");
+            } else {
+              araclar.push(data);
+              localStorage.setItem("araclar", JSON.stringify(araclar));
+              refreshTableData(table, araclar);
+            }
 
-<script>
-  var plaka;
-  var marka;
-  var giris="";
-  var cikis="";
-  var dataSet = [
-    [plaka, marka, giris, cikis],
+            if (!plaka) {
+              $.alert("provide a valid name");
+              return false;
+            }
+          },
+        },
+        kapat: function () {},
+      },
+      onContentReady: function () {
+        var jc = this;
+        this.$content.find("form").on("submit", function (e) {
+          e.preventDefault();
+          jc.$$formSubmit.trigger("click");
+        });
+      },
+    });
 
-  ];
-  var table;
-  table = $('#table').DataTable({
-    data: dataSet,
-    dom: 'Bfrtip',
-    Columns: [
-      { title: "Plaka" },
-      { title: "Marka" },
-      { title: "Giriş" },
-      { title: "Çıkış" },
-      { title: " " },
-      { title: "Tutar" },
-      { title: " " },
-      { title: " " },
-    ],
-    buttons: [
-      'pdf', 'print'
-    ],
-    // render: function (data, type, full, meta) {
-    //   Utils.formatString(buttonTemplate, data)
-    // }
-  });
-//   $(document).ready(function() {
-//     //açılışta çalışması için
-//     gonder();
-//     var int=self.setInterval("gonder()",1000);
-// });
- 
-// function gonder(){
-//     $.ajax({
-//         type:'POST',
-//         url:'mainPage.html',
-//         success: function (msg) {
-//             $("#sonuc").html(msg);
-//         }
-//     });
-// };
+    checkPlakaExists = function (araclar, plaka) {
+      let plakaExists = false;
 
-  
-
-
-  $('#yeniArac').confirm({
-    title: 'Yeni Araç',
-    content: '' +
-      '<form action="" class="formName">' +
-      '<div class="form-group">' +
-      '<label>Lütfen plakayı buraya giriniz</label>' +
-      '<input type="text" id="plaka" placeholder="Plaka" class="name form-control" required />' +
-      '</div>' + '<label>Lütfen araç markasını buraya giriniz</label>' +
-      '<input type="text" id="marka" placeholder="Marka" class="name form-control" required />' +
-      '</div>' +
-      '</form>',
-    buttons: {
-      formSubmit: {
-        text: 'Submit',
-        btnClass: 'btn-success',
-        action: function () {
-          localStorage.setItem("plaka",this.$content.find('#plaka').val());
-          localStorage.setItem("marka",this.$content.find('#marka').val());
-          // localStorage.setItem("giris",Date().toString());
-          console.log(this.$content.find('#plaka').val());
-          dataSet.forEach(plaka,marka,giris => {
-            plaka=localStorage.getItem("plaka");
-            marka=localStorage.getItem("marka");
-            // giris=localStorage.getItem("giris");
-            //table.rows.add(dataset).draw();
-          });
-          if (!plaka) { //regex buraya yazılacak
-            $.alert('provide a valid name');
-            return false;
-          }
-
+      araclar.forEach((arac) => {
+        if (arac.plaka === plaka) {
+          plakaExists = true;
         }
-      },
-      cancel: function () {
-        //close
-      },
-    },
-    onContentReady: function () {
-      // bind to events
-      var jc = this;
-      this.$content.find('form').on('submit', function (e) {
-        // if the user submits the form by pressing enter in the field.
-        e.preventDefault();
-        jc.$$formSubmit.trigger('click'); // reference the button and click it
       });
+
+      return plakaExists;
+    };
+
+    refreshTableData = function (dt, data) {
+      if (!data) {
+        data = dt.data();
+      }
+
+      dt.clear();
+      dt.rows.add(data).draw();
+    };
+
+    cikisYap = function (id) {
+      console.log(id);
+      araclar = araclar.filter((arac) => arac.id != id);
+      let giris = araclar.girisTarihi;
+      console.log("giris: " + giris);
+      let out = dayjs();
+      console.log("out" + out);
+      const timeDifference = out.diff(giris, "minute");
+      console.log(timeDifference + " dakika");
+      araclar.ucret = timeDifference * 0.5;
+      tutar = araclar.ucret;
+      alert("Tutar: " + tutar + "₺");
+      console.log("ucret=" + araclar.ucret);
+      console.log(araclar);
+      // localStorage.setItem("araclar", JSON.stringify(araclar)); // ücret hesaplanacak
+      refreshTableData(table, araclar);
+      return araclar;
+    };
+
+    sil = function (id) {
+      setTimeout(sil, 1000);
+      //30 dakika = 1800000
+      function butonuGizle() {
+        table.buttons("#sil").nodes().addClass("hidden");
+        console.log(id);
+        araclar = araclar.filter((arac) => arac.id != id);
+        console.log(araclar);
+        localStorage.setItem("araclar", JSON.stringify(araclar));
+        refreshTableData(table, araclar);
+      }
+      return araclar;
+    };
+
+    // window.setInterval(veriGuncelle,500); // veriyi güncel tutmak için sürekli güncelleme
+    function veriGuncelle() {
+      localStorage.setItem("araclar", JSON.stringify(araclar));
+      refreshTableData(table, araclar);
     }
-  });
 
-</script>
+    $("#duzenle").confirm({
+      title: "Düzenle",
+      content:
+        "" +
+        '<form action="" class="aracFormu">' +
+        `<div class="form-group" placeholder="${araclar.id}">` +
+        "<label>Numara</label>" +
+        `<input type="text" id="plaka" class="name form-control" required />` +
+        "</div>" +
+        "<label>Lütfen araç markasını buraya giriniz</label>" +
+        `<input type="text" id="marka" class="name form-control" required />` +
+        "</div>" +
+        "</form>",
+      buttons: {
+        formSubmit: {
+          text: "Düzenle",
+          btnClass: "btn-success",
+          action: function (id, arac) {
+            araclar.forEach((_arac) => {
+              if (_arac.id === id) {
+                _arac = arac;
+                arac.plaka = this.$content.find("#plaka").val();
+                arac.marka = this.$content.find("#marka").val();
+                localStorage.setItem("araclar", JSON.stringify(araclar));
+                refreshTableData(table, araclar);
+              }
+            });
+          },
+        },
+        kapat: function () {},
+      },
+      onContentReady: function () {
+        var jc = this;
+        this.$content.find("form").on("submit", function (e) {
+          e.preventDefault();
+          jc.$$formSubmit.trigger("click");
+        });
+      },
+    });
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    var check;
+    console.log("check:" + check);
 
+    table = $("#table").DataTable({
+      data: araclar.reverse(),
+      dom: "Bfrtip",
+      order: [[3, "desc"]],
+      columns: [
+        {
+          title: "",
+          data: null,
+          render: function (data, type, full) {
+            $("#checkbox").click(function (event) {
+              if ($(":checkbox").attr("checked", true)) {
+                // check select status
+              } else {
+                $(":checkbox").attr("checked", false);
+              }
+            });
+            return `<input type="checkbox" id="checkbox" checked="checked">`;
+          },
+        },
+        { title: "Plaka", data: "plaka" },
+        { title: "Marka", data: "marka" },
+        { title: "Giriş", data: "giris" },
+        { title: "Çıkış", data: "cikis" },
+        { title: "Tutar", data: "ucret" },
+        {
+          data: null,
+          render: function (data, type, full) {
+            console.log(full, "full");
+            console.log(data, "data");
+            return (
+              `<button class="btn btn-warning" id="cikisYap" onclick="cikisYap(${data.id})"` +
+              full[0] +
+              ">" +
+              "Çıkış" +
+              "</button>"
+            );
+          },
+        },
+        //  {
+        //    data: null,
+        //    render: function (data, type, full) {
+        //      return (
+        //        `<button class="btn btn-info" id="duzenle" onclick="${data.id}, ${data.arac}" ` +
+        //        full[0] +
+        //        ">" +
+        //        "Düzenle" +
+        //        "</button>"
+        //      );
+        //    },
+        //  },
+        {
+          data: null,
+          render: function (data, type, full) {
+            return (
+              `<button class="btn btn-danger" id="sil" onclick="sil(${data.id})"` +
+              full[0] +
+              ">" +
+              "Sil" +
+              "</button>"
+            );
+          },
+        },
+      ],
+      select: true,
+      buttons: [
+        "pdf",
+        "print",
+        {
+          text: "Düzenle",
+          action: function () {
+            var a = table.rows( {selected:true} ).data().id(1);
+            console.log("row"+a);
+          },
+        },
+      ],
+      render: function (data, type, full, meta) {
+        Utils.formatString(buttonTemplate, data);
+      },
+    });
+
+    anlıkTarih = function () {
+      var tarih = new Date().toLocaleString("tr-TR");
+      setInterval(anlıkTarih, 1000);
+      return tarih;
+    };
+  </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </html>
