@@ -1,5 +1,7 @@
 var araclar = JSON.parse(localStorage.getItem("araclar")) || [];
+var arsivler = JSON.parse(localStorage.getItem("arsiv")) || [];
 var table;
+let time;
 
 $("#yeniArac").confirm({
   title: "Yeni Araç",
@@ -20,10 +22,10 @@ $("#yeniArac").confirm({
       btnClass: "btn-success",
       action: function () {
         const data = {
-          id: araclar.length + 1,
+          id: araclar.length,
           plaka: this.$content.find("#plaka").val(),
           marka: this.$content.find("#marka").val(),
-          giris: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+          giris: dayjs().format("DD.MM.YYYY HH:mm:ss"),
           girisTarihi: new Date().getTime(),
           cikis: "",
           ucret: 0.0 + "₺",
@@ -34,6 +36,7 @@ $("#yeniArac").confirm({
         } else {
           araclar.push(data);
           localStorage.setItem("araclar", JSON.stringify(araclar));
+
           refreshTableData(table, araclar);
         }
 
@@ -70,57 +73,88 @@ refreshTableData = function (dt, data) {
   if (!data) {
     data = dt.data();
   }
-
   dt.clear();
   dt.rows.add(data).draw();
 };
 
 cikisYap = function (id) {
-  console.log(id);
-  araclar = araclar.filter((arac) => arac.id != id);
-  let giris = dayjs(araclar.girisTarihi);
-  console.log("giris: " + giris);
-  let out = dayjs();
-  console.log("out" + out);
-  const timeDifference = out.diff(giris, "minute");
-  console.log(timeDifference + " dakika");
-  araclar.ucret = timeDifference * 0.5;
+  
+  const _id = araclar.findIndex(function(obj){
+    return obj.id == id
+  });
+  console.log("Aracın Index Karşılığı: "+_id);
+  araclar.splice(_id, 1);
+  var _giris = parseInt(
+    JSON.parse(localStorage.getItem("araclar"))[_id].girisTarihi
+  );
+  const out = dayjs();
+  const timeDifference = out.diff(_giris, "minute");
+  araclar.ucret = Math.floor(timeDifference / 30) * 0.5;
   tutar = araclar.ucret;
   alert("Tutar: " + tutar + "₺");
-  console.log("ucret=" + araclar.ucret);
-  console.log(araclar);
-  // localStorage.setItem("araclar", JSON.stringify(araclar)); // ücret hesaplanacak
+  arsivler.push(JSON.parse(localStorage.getItem("araclar"))[_id]);
+  localStorage.setItem("arsiv", JSON.stringify(arsivler));
+  localStorage.setItem("araclar", JSON.stringify(araclar));
   refreshTableData(table, araclar);
   return araclar;
 };
 
+function DownloadJSON() {
+  var json = localStorage.getItem("arsiv");
+
+  json = [json];
+  var blob1 = new Blob(json, { type: "text/plain;charset=utf-8" });
+
+
+  var isIE = false || !!document.documentMode;
+  if (isIE) {
+    window.navigator.msSaveBlob(blob1, "Arsiv.txt");
+  } else {
+    var url = window.URL || window.webkitURL;
+    link = url.createObjectURL(blob1);
+    var a = $("<a />");
+    a.attr("download", "arsiv.txt");
+    a.attr("href", link);
+    $("body").append(a);
+    a[0].click();
+    $("body").remove(a);
+  }
+};
+
+function arsiviSil() {
+  localStorage.setItem("arsiv", null);
+}
+
 sil = function (id) {
-  setTimeout(butonuGizle, 2000);
-  //30 dakika = 1800000
-  function butonuGizle() {
-    table.buttons("#sil").nodes().addClass("hidden");
-    console.log(id);
-    araclar = araclar.filter((arac) => arac.id != id);
-    console.log(araclar);
-    localStorage.setItem("araclar", JSON.stringify(araclar));
-    refreshTableData(table, araclar);
+  const _id = araclar.findIndex(function(obj){
+    return obj.id == id
+  });
+  console.log("Aracın Index Karşılığı: "+_id);
+  araclar.splice(_id, 1);
+  var __giris = parseInt(
+    JSON.parse(localStorage.getItem("araclar"))[_id].girisTarihi
+  );
+  const outt = dayjs();
+  const zamanFarki = outt.diff(__giris, "minute");
+
+  if (zamanFarki > 30) {
+    alert("30 dakikayı geçtikten sonra kayıtları silemezsiniz!");
+  } else {
+  arsivler.push(JSON.parse(localStorage.getItem("araclar"))[_id]);
+  localStorage.setItem("araclar", JSON.stringify(araclar));
+  refreshTableData(table, araclar);
   }
   return araclar;
 };
 
-// window.setInterval(veriGuncelle,500); // veriyi güncel tutmak için sürekli güncelleme
-function veriGuncelle() {
-  localStorage.setItem("araclar", JSON.stringify(araclar));
-  refreshTableData(table, araclar);
-}
 
 $("#duzenle").confirm({
   title: "Düzenle",
   content:
     "" +
     '<form action="" class="aracFormu">' +
-    '<div class="form-group">' +
-    "<label>Plaka</label>" +
+    `<div class="form-group" placeholder="${araclar.id}">` +
+    "<label>Numara</label>" +
     `<input type="text" id="plaka" class="name form-control" required />` +
     "</div>" +
     "<label>Lütfen araç markasını buraya giriniz</label>" +
@@ -133,16 +167,14 @@ $("#duzenle").confirm({
       btnClass: "btn-success",
       action: function (id, arac) {
         araclar.forEach((_arac) => {
-          if(_arac.id === id) {
+          if (_arac.id === id) {
             _arac = arac;
             arac.plaka = this.$content.find("#plaka").val();
             arac.marka = this.$content.find("#marka").val();
             localStorage.setItem("araclar", JSON.stringify(araclar));
-            refreshTableData(table,araclar);
-
+            refreshTableData(table, araclar);
           }
-        })
-
+        });
       },
     },
     kapat: function () {},
@@ -156,11 +188,29 @@ $("#duzenle").confirm({
   },
 });
 
+
+
+$("#button").click(function () {
+  table.row(".selected").remove().draw(false);
+});
 table = $("#table").DataTable({
-  data: araclar.reverse(),
+  data: araclar,
   dom: "Bfrtip",
-  order: [[2, "desc"]],
+  order: [[3, "desc"]],
   columns: [
+  {
+      title: "",
+      data: null,
+      render: function (data, type, full) {
+        $("#checkbox").click(function (event) {
+          if ($(":checkbox").attr("checked", true)) {
+          } else {
+            $(":checkbox").attr("checked", false);
+          }
+        });
+        return `<input type="checkbox" id="checkbox">`;
+      },
+    },
     { title: "Plaka", data: "plaka" },
     { title: "Marka", data: "marka" },
     { title: "Giriş", data: "giris" },
@@ -169,8 +219,6 @@ table = $("#table").DataTable({
     {
       data: null,
       render: function (data, type, full) {
-        console.log(full, "full");
-        console.log(data, "data");
         return (
           `<button class="btn btn-warning" id="cikisYap" onclick="cikisYap(${data.id})"` +
           full[0] +
@@ -182,21 +230,11 @@ table = $("#table").DataTable({
     },
     {
       data: null,
+
       render: function (data, type, full) {
+
         return (
-          `<button class="btn btn-info" id="duzenle" onclick="${data.id}, ${data.arac}" ` +
-          full[0] +
-          ">" +
-          "Düzenle" +
-          "</button>"
-        );
-      },
-    },
-    {
-      data: null,
-      render: function (data, type, full) {
-        return (
-          `<button class="btn btn-danger" id="sil" onclick="sil(${data.id})"` +
+          `<button class="btn btn-danger delete-button" id="sil" onclick="sil(${data.id})"` +
           full[0] +
           ">" +
           "Sil" +
@@ -205,15 +243,11 @@ table = $("#table").DataTable({
       },
     },
   ],
-
-  buttons: ["pdf", "print"],
+  buttons: [
+    "pdf",
+    "print",
+  ],
   render: function (data, type, full, meta) {
-     Utils.formatString(buttonTemplate, data)
-   }
+    Utils.formatString(buttonTemplate, data);
+  },
 });
-
-anlıkTarih = function () {
-  var tarih = new Date().toLocaleString("tr-TR");
-  setInterval(anlıkTarih, 1000);
-  return tarih;
-};
