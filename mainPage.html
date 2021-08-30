@@ -87,6 +87,8 @@
   <script>
     var araclar = JSON.parse(localStorage.getItem("araclar")) || [];
     var table;
+    let time;
+   
 
     $("#yeniArac").confirm({
       title: "Yeni Araç",
@@ -110,18 +112,21 @@
               id: araclar.length + 1,
               plaka: this.$content.find("#plaka").val(),
               marka: this.$content.find("#marka").val(),
-              giris: dayjs(),
+              giris: dayjs().format("DD.MM.YYYY HH:mm"),
               girisTarihi: new Date().getTime(),
               cikis: "",
               ucret: 0.0 + "₺",
             };
-            console.log(data.giris);
-
+            // console.log(data.giris);
+            time = dayjs().format("DD.MM.YYYY HH:mm");
+            console.log("ashlgjashgljashgkjashga: "+time);
             if (checkPlakaExists(araclar, data.plaka)) {
               alert(data.plaka + " plakalı araç zaten otoparkımızdadır.");
             } else {
               araclar.push(data);
               localStorage.setItem("araclar", JSON.stringify(araclar));
+            
+            
               refreshTableData(table, araclar);
             }
 
@@ -162,16 +167,15 @@
       dt.clear();
       dt.rows.add(data).draw();
     };
-
     cikisYap = function (id) {
       console.log(id);
       araclar = araclar.filter((arac) => arac.id != id);
-      console.log("sa xd"+JSON.parse(localStorage.getItem(araclar.giris)));
-      let giris = dayjs(araclar.giris);
-      console.log("giris: " + giris);
-      let out = dayjs();
+      console.log(JSON.parse(localStorage.getItem(araclar.giris)));
+      
+      console.log("giris: " + time);
+      const out = dayjs().format("DD.MM.YYYY HH:mm");
       console.log("out" + out);
-      const timeDifference = out.diff(giris, "minute");
+      const timeDifference = out.diff(time, "minute");
       console.log(timeDifference + " dakika");
       araclar.ucret = timeDifference * 0.5;
       tutar = araclar.ucret;
@@ -326,11 +330,14 @@
       },
     });
 
-    anlıkTarih = function () {
-      var tarih = new Date().toLocaleString("tr-TR");
-      setInterval(anlıkTarih, 1000);
-      return tarih;
-    };
+    // anlıkTarih = function () {
+    //   var tarih = new Date().toLocaleString("tr-TR");
+    //   setInterval(anlıkTarih, 1000);
+    //   return tarih;
+    // };
+
+
+
   </script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
